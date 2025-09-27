@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parent Dashboard – Attendance System</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Poppins', Arial, sans-serif;
+      background: linear-gradient(120deg, #f8fbff 0%, #e3f0ff 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.6s;
+    }
+    .dashboard-card {
+      background: #fff;
+      box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
+      border-radius: 15px;
+      padding: 2.5rem 2rem 2rem 2rem;
+      max-width: 900px;
+      width: 98vw;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      animation: fadeInUp 1s cubic-bezier(.23,1.01,.32,1);
+    }
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(60px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .dashboard-header {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.3rem;
+    }
+    .dashboard-header h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #1C6DD0;
+      margin: 0;
+    }
+    .dashboard-header .child-name {
+      font-size: 1.1rem;
+      color: #4A90E2;
+      font-weight: 500;
+      margin-top: 0.2rem;
+    }
+    .summary-section {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+    }
+    .attendance-summary {
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
+      border: 1.5px solid #e3f0ff;
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      min-width: 260px;
+      flex: 1 1 260px;
+      position: relative;
+      transition: box-shadow 0.2s, transform 0.2s, border 0.2s;
+    }
+    .attendance-summary:hover {
+      box-shadow: 0 8px 32px rgba(76, 175, 255, 0.18);
+      border: 1.5px solid #4A90E2;
+      transform: translateY(-4px) scale(1.03);
+    }
+    .circular-progress {
+      width: 80px; height: 80px;
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .circular-progress svg {
+      width: 80px; height: 80px;
+      transform: rotate(-90deg);
+    }
+    .circular-progress .progress-value {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #1C6DD0;
+    }
+    .attendance-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+    .attendance-info .label {
+      font-size: 1rem;
+      color: #4A90E2;
+      font-weight: 500;
+    }
+    .attendance-info .value {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #222;
+    }
+    .quick-links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+    .quick-link-btn {
+      background: linear-gradient(90deg, #4A90E2 0%, #1C6DD0 100%);
+      color: #fff;
+      border: none;
+      border-radius: 1.2rem;
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 8px #4A90E222;
+      transition: background 0.18s, transform 0.18s;
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .quick-link-btn:hover {
+      background: linear-gradient(90deg, #1C6DD0 0%, #4A90E2 100%);
+      transform: scale(1.04);
+    }
+    .recent-classes-section {
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
+      border: 1.5px solid #e3f0ff;
+      padding: 1.2rem 1rem 1.2rem 1rem;
+      margin-top: 0.5rem;
+    }
+    .recent-classes-section h3 {
+      margin: 0 0 0.7rem 0;
+      color: #1C6DD0;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+    .recent-classes-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 0.5rem;
+    }
+    .recent-classes-table th {
+      text-align: left;
+      color: #4A90E2;
+      font-weight: 600;
+      font-size: 1rem;
+      padding-bottom: 0.3rem;
+    }
+    .recent-classes-table td {
+      background: #f8fbff;
+      border-radius: 0.7rem;
+      padding: 0.6rem 0.8rem;
+      font-size: 1rem;
+      color: #222;
+      vertical-align: middle;
+    }
+    .badge {
+      display: inline-block;
+      padding: 0.3em 0.9em;
+      border-radius: 1em;
+      font-size: 0.98em;
+      font-weight: 600;
+      color: #fff;
+      margin-left: 0.3em;
+      box-shadow: 0 1px 4px #4A90E222;
+    }
+    .badge.present { background: #1C6DD0; }
+    .badge.absent { background: #E0E0E0; color: #222; }
+    .badge.late { background: linear-gradient(90deg, #4A90E2 0%, #1C6DD0 100%); }
+    .recent-classes-table tr.low-attendance td {
+      background: linear-gradient(90deg, #e3f0ff 0%, #b3d8fd 100%);
+      box-shadow: 0 0 8px #4A90E244;
+    }
+    .notifications-section {
+      margin-top: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+    .notification-card {
+      background: linear-gradient(90deg, #e3f0ff 0%, #b3d8fd 100%);
+      border-radius: 1rem;
+      box-shadow: 0 2px 8px #4A90E244;
+      padding: 1rem 1.2rem;
+      color: #1C6DD0;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      animation: fadeIn 0.7s;
+    }
+    .notification-card.important {
+      background: linear-gradient(90deg, #4A90E2 0%, #1C6DD0 100%);
+      color: #fff;
+      box-shadow: 0 0 16px #4A90E288;
+      font-weight: 700;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    /* Progress Circle Blue */
+    #progressCircle {
+      stroke: #1C6DD0;
+      transition: stroke-dashoffset 1s cubic-bezier(.23,1.01,.32,1);
+    }
+    @media (max-width: 700px) {
+      .dashboard-card { padding: 1.2rem 0.2rem; }
+      .summary-section { flex-direction: column; gap: 1rem; }
+      .attendance-summary { min-width: 0; width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-card">
+    <!-- Top Section: Greeting -->
+    <div class="dashboard-header">
+      <h2>Welcome, <span id="parentName">Priya Sharma</span>!</h2>
+      <div class="child-name">Child: <span id="childName">Aarav Sharma (Class 4B)</span></div>
+    </div>
+    <!-- Attendance Summary Section -->
+    <div class="summary-section">
+      <div class="attendance-summary">
+        <div class="circular-progress" id="attendanceProgress">
+          <svg>
+            <circle cx="40" cy="40" r="36" stroke="#e3f0ff" stroke-width="8" fill="none"/>
+            <circle cx="40" cy="40" r="36" stroke="#1C6DD0" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="226.2" stroke-dashoffset="0" id="progressCircle"/>
+          </svg>
+          <span class="progress-value" id="attendancePercent">92%</span>
+        </div>
+        <div class="attendance-info">
+          <span class="label">Attendance</span>
+          <span class="value">This Month</span>
+        </div>
+      </div>
+      <div class="attendance-summary">
+        <div class="circular-progress" style="background: none;">
+          <span class="progress-value" style="font-size:2.1rem;color:#1C6DD0;"><i class="fas fa-calendar-check"></i></span>
+        </div>
+        <div class="attendance-info">
+          <span class="label">Days Present</span>
+          <span class="value" id="daysPresent">20</span>
+        </div>
+      </div>
+      <div class="attendance-summary">
+        <div class="circular-progress" style="background: none;">
+          <span class="progress-value" style="font-size:2.1rem;color:#E0E0E0;"><i class="fas fa-calendar-times"></i></span>
+        </div>
+        <div class="attendance-info">
+          <span class="label">Days Absent</span>
+          <span class="value" id="daysAbsent">2</span>
+        </div>
+      </div>
+    </div>
+    <!-- Quick Links -->
+    <div class="quick-links">
+      <button class="quick-link-btn"><i class="fas fa-chart-bar"></i> Monthly Report</button>
+      <button class="quick-link-btn"><i class="fas fa-print"></i> Print Attendance</button>
+      <button class="quick-link-btn"><i class="fas fa-envelope"></i> Contact Teacher</button>
+    </div>
+    <!-- Recent Classes Section -->
+    <div class="recent-classes-section">
+      <h3>Recent Classes</h3>
+      <table class="recent-classes-table">
+        <thead>
+          <tr>
+            <th>Class</th>
+            <th>Date</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="recentClassesBody">
+          <!-- JS will populate rows -->
+        </tbody>
+      </table>
+    </div>
+    <!-- Notifications Section -->
+    <div class="notifications-section" id="notificationsSection">
+      <!-- JS will populate notifications -->
+    </div>
+  </div>
+  <script>
+    // Attendance Progress Circle
+    function setAttendanceProgress(percent) {
+      const circle = document.getElementById('progressCircle');
+      const radius = 36;
+      const circumference = 2 * Math.PI * radius;
+      const offset = circumference - (percent / 100) * circumference;
+      circle.style.strokeDasharray = `${circumference}`;
+      circle.style.strokeDashoffset = `${offset}`;
+      document.getElementById('attendancePercent').textContent = percent + '%';
+    }
+    setAttendanceProgress(92);
+
+    // Populate Recent Classes
+    const recentClasses = [
+      { class: 'Math', date: '2025-09-24', status: 'present' },
+      { class: 'Science', date: '2025-09-23', status: 'absent' },
+      { class: 'English', date: '2025-09-22', status: 'present' },
+      { class: 'History', date: '2025-09-21', status: 'late' },
+      { class: 'Art', date: '2025-09-20', status: 'present' },
+    ];
+    const statusBadges = {
+      present: '<span class="badge present">✔️ Present</span>',
+      absent: '<span class="badge absent">❌ Absent</span>',
+      late: '<span class="badge late">⏰ Late</span>'
+    };
+    const recentClassesBody = document.getElementById('recentClassesBody');
+    recentClasses.forEach(row => {
+      const tr = document.createElement('tr');
+      if(row.status === 'absent') tr.classList.add('low-attendance');
+      tr.innerHTML = `
+        <td>${row.class}</td>
+        <td>${row.date}</td>
+        <td>${statusBadges[row.status]}</td>
+      `;
+      recentClassesBody.appendChild(tr);
+    });
+
+    // Notifications
+    const notifications = [
+      { text: 'You missed Science class on 2025-09-23.', important: true },
+      { text: 'Parent-Teacher meeting on 2025-09-28 at 10:00 AM.', important: false },
+      { text: 'Attendance below 90% for this month.', important: true },
+    ];
+    const notificationsSection = document.getElementById('notificationsSection');
+    notifications.forEach(n => {
+      const div = document.createElement('div');
+      div.className = 'notification-card' + (n.important ? ' important' : '');
+      div.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${n.text}`;
+      notificationsSection.appendChild(div);
+    });
+  </script>
+</body>
+</html>
+

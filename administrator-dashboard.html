@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard – Attendance System</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --accent: #38bdf8;
+      --bg: #f4f7fb;
+      --sidebar: #1e293b;
+      --card: #fff;
+      --text: #23263b;
+      --grey: #cbd5e1;
+      --shadow: 0 2px 12px #e0e7ef;
+      --radius: 1.2rem;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Inter', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+    }
+    .sidebar {
+      width: 240px;
+      background: var(--sidebar);
+      display: flex;
+      flex-direction: column;
+      padding: 1.5rem 0 1rem 0;
+      box-shadow: 2px 0 16px #e0e7ef;
+      min-height: 100vh;
+      position: fixed;
+      left: 0; top: 0; bottom: 0;
+      z-index: 100;
+      transition: width 0.2s;
+    }
+    .sidebar.collapsed { width: 70px; }
+    .sidebar .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-align: center;
+      margin-bottom: 2rem;
+      letter-spacing: 1px;
+      transition: opacity 0.2s;
+    }
+    .sidebar.collapsed .logo { opacity: 0; height: 0; margin: 0; }
+    .sidebar .collapse-btn {
+      background: none; border: none; color: var(--grey); font-size: 1.2rem;
+      margin: 0 0 1.5rem 0.7rem; cursor: pointer; align-self: flex-start;
+      transition: color 0.2s;
+    }
+    .sidebar .collapse-btn:hover { color: var(--primary); }
+    .nav {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      width: 100%;
+    }
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.85rem 2rem;
+      font-size: 1.08rem;
+      color: var(--grey);
+      border-radius: var(--radius) 0 0 var(--radius);
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+      cursor: pointer;
+      position: relative;
+    }
+    .nav-link.active, .nav-link:hover {
+      background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+      color: #fff;
+      font-weight: 700;
+    }
+    .sidebar.collapsed .nav-link span { display: none; }
+    .sidebar.collapsed .nav-link { justify-content: center; padding: 0.85rem 0; }
+    .main-content {
+      flex: 1;
+      margin-left: 240px;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      transition: margin-left 0.2s;
+    }
+    .sidebar.collapsed ~ .main-content { margin-left: 70px; }
+    .header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--card);
+      box-shadow: var(--shadow);
+      border-radius: 0 0 var(--radius) var(--radius);
+      padding: 1.1rem 2.2rem 1.1rem 2.2rem;
+      margin-bottom: 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .header-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: 0.5px;
+    }
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+    }
+    .search-bar {
+      background: #f1f5f9;
+      border: none;
+      border-radius: 2rem;
+      padding: 0.5rem 1.2rem;
+      font-size: 1rem;
+      outline: none;
+      margin-right: 0.7rem;
+      min-width: 180px;
+    }
+    .notif-bell {
+      position: relative;
+      font-size: 1.3rem;
+      color: var(--primary);
+      cursor: pointer;
+    }
+    .notif-badge {
+      position: absolute;
+      top: -7px; right: -7px;
+      background: #ef4444;
+      color: #fff;
+      font-size: 0.7rem;
+      border-radius: 50%;
+      padding: 2px 6px;
+      font-weight: 700;
+    }
+    .profile-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .profile-btn {
+      background: none; border: none; cursor: pointer;
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 1.1rem; color: var(--primary);
+    }
+    .profile-pic {
+      width: 36px; height: 36px; border-radius: 50%; background: #e0e7ef;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+    }
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      right: 0; top: 120%;
+      background: var(--card);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+      min-width: 150px;
+      z-index: 20;
+      padding: 0.5rem 0;
+    }
+    .dropdown-menu.show { display: block; }
+    .dropdown-menu a {
+      display: block;
+      padding: 0.7rem 1.2rem;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 1rem;
+      transition: background 0.2s;
+    }
+    .dropdown-menu a:hover { background: #f1f5f9; }
+    .dashboard-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .summary-card {
+      background: var(--card);
+      color: var(--primary);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.3rem 2.2rem;
+      min-width: 170px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      position: relative;
+      gap: 0.5rem;
+    }
+    .summary-card .icon {
+      position: absolute;
+      top: 1.1rem;
+      right: 1.3rem;
+      font-size: 2rem;
+      color: var(--accent);
+      opacity: 0.18;
+    }
+    .summary-title {
+      font-size: 1.02rem;
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .summary-value {
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .charts-section {
+      display: flex;
+      gap: 2rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .chart-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.2rem 1.5rem;
+      flex: 1 1 320px;
+      min-width: 260px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .recent-activity-section {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.2rem 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .announcements-section {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.2rem 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .data-table-section {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.2rem 1.5rem;
+      margin-bottom: 2rem;
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 1rem;
+      background: transparent;
+    }
+    th, td {
+      padding: 0.7rem 1.1rem;
+      text-align: left;
+      border-bottom: 1px solid #e0e7ef;
+    }
+    th {
+      color: var(--primary);
+      font-weight: 700;
+      background: #f4f7fb;
+    }
+    td {
+      color: var(--text);
+      font-weight: 500;
+      background: var(--card);
+    }
+    .status-present { color: #22c55e; font-weight: 700; }
+    .status-absent { color: #ef4444; font-weight: 700; }
+    .table-actions button {
+      background: none; border: none; color: var(--primary); cursor: pointer; font-size: 1.1rem; margin-right: 0.5rem;
+    }
+    .table-actions button:last-child { margin-right: 0; }
+    .filter-bar {
+      display: flex; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap;
+    }
+    .filter-bar input, .filter-bar select {
+      padding: 0.4rem 0.8rem; border-radius: 0.7rem; border: 1px solid #e0e7ef; font-size: 1rem;
+    }
+    .pagination {
+      display: flex; gap: 0.5rem; margin-top: 1rem; align-items: center;
+    }
+    .pagination button {
+      background: var(--primary); color: #fff; border: none; border-radius: 0.5rem; padding: 0.3rem 0.8rem; cursor: pointer;
+    }
+    .pagination .active { background: var(--accent); }
+    @media (max-width: 1200px) {
+      .dashboard-section { grid-template-columns: 1fr 1fr; }
+      .charts-section { flex-direction: column; gap: 1rem; }
+    }
+    @media (max-width: 900px) {
+      .main-content { margin-left: 70px; }
+      .sidebar { width: 70px; }
+      .sidebar .logo { opacity: 0; height: 0; margin: 0; }
+      .sidebar .nav-link span { display: none; }
+      .sidebar .nav-link { justify-content: center; padding: 0.85rem 0; }
+      .dashboard-section { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 700px) {
+      .main-content { margin-left: 0; padding: 0.5rem; }
+      .sidebar { display: none; }
+      .header-bar { flex-direction: column; gap: 1rem; align-items: flex-start; }
+      .dashboard-section { grid-template-columns: 1fr; }
+      .charts-section { flex-direction: column; gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <button class="collapse-btn" id="sidebarCollapse" title="Collapse Sidebar"><i class="fas fa-bars"></i></button>
+    <div class="logo">Upasthiti</div>
+    <nav class="nav">
+      <a class="nav-link active" href="#"><i class="fas fa-th-large"></i> <span>Dashboard</span></a>
+      <a class="nav-link" href="#"><i class="fas fa-chalkboard-teacher"></i> <span>Teachers</span></a>
+      <a class="nav-link" href="#"><i class="fas fa-user-graduate"></i> <span>Students</span></a>
+      <a class="nav-link" href="#"><i class="fas fa-chart-bar"></i> <span>Attendance Reports</span></a>
+      <a class="nav-link" href="#"><i class="fas fa-layer-group"></i> <span>Class Management</span></a>
+      <a class="nav-link" href="#"><i class="fas fa-bell"></i> <span>Notifications</span></a>
+      <a class="nav-link" href="#"><i class="fas fa-cog"></i> <span>Settings</span></a>
+      <a class="nav-link" href="#"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
+    </nav>
+  </aside>
+  <!-- Main Content -->
+  <div class="main-content" id="mainContent">
+    <!-- Header Bar -->
+    <div class="header-bar">
+      <div class="header-title">Admin Dashboard – Attendance System</div>
+      <div class="header-actions">
+        <input class="search-bar" type="text" placeholder="Search students/teachers..." />
+        <div class="notif-bell" id="notifBell">
+          <i class="fas fa-bell"></i>
+          <span class="notif-badge" id="notifBadge">3</span>
+        </div>
+        <div class="profile-dropdown" id="profileDropdown">
+          <button class="profile-btn" id="profileBtn">
+            <span class="profile-pic"><i class="fas fa-user"></i></span>
+            <i class="fas fa-chevron-down"></i>
+          </button>
+          <div class="dropdown-menu" id="dropdownMenu">
+            <a href="#">Profile</a>
+            <a href="#">Settings</a>
+            <a href="#">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Dashboard Summary Cards -->
+    <div class="dashboard-section">
+      <div class="summary-card">
+        <span class="summary-title">Total Students</span>
+        <span class="summary-value" id="total-students">1200</span>
+        <span class="icon"><i class="fas fa-user-graduate"></i></span>
+      </div>
+      <div class="summary-card">
+        <span class="summary-title">Teachers Count</span>
+        <span class="summary-value" id="teachers-count">80</span>
+        <span class="icon"><i class="fas fa-chalkboard-teacher"></i></span>
+      </div>
+      <div class="summary-card">
+        <span class="summary-title">Present Today</span>
+        <span class="summary-value" id="present-today">1120</span>
+        <span class="icon"><i class="fas fa-user-check"></i></span>
+      </div>
+      <div class="summary-card">
+        <span class="summary-title">Absent Today</span>
+        <span class="summary-value" id="absent-today">80</span>
+        <span class="icon"><i class="fas fa-user-times"></i></span>
+      </div>
+      <div class="summary-card">
+        <span class="summary-title">Attendance %</span>
+        <span class="summary-value" id="attendance-percent">93.3%</span>
+        <span class="icon"><i class="fas fa-percentage"></i></span>
+      </div>
+    </div>
+    <!-- Charts Section -->
+    <div class="charts-section">
+      <div class="chart-card">
+        <h4>Present vs Absent</h4>
+        <canvas id="pieChart" width="180" height="180"></canvas>
+      </div>
+      <div class="chart-card">
+        <h4>Attendance Trends</h4>
+        <canvas id="barChart" width="320" height="180"></canvas>
+      </div>
+    </div>
+    <!-- Recent Activity & Announcements -->
+    <div style="display: flex; gap: 2rem; flex-wrap: wrap; margin-bottom: 2rem;">
+      <div class="recent-activity-section" style="flex:1 1 320px; min-width:260px;">
+        <h4>Recent Activity</h4>
+        <ul id="recentActivity" style="list-style:none; padding:0; margin:0;">
+          <li>Admin logged in (09:00 AM)</li>
+          <li>Attendance marked for 10-A (08:45 AM)</li>
+          <li>Teacher added: S. Kumar (08:30 AM)</li>
+          <li>Student updated: R. Mehra (08:20 AM)</li>
+          <li>Attendance marked for 9-B (08:10 AM)</li>
+        </ul>
+      </div>
+      <div class="announcements-section" style="flex:1 1 320px; min-width:260px;">
+        <h4>Announcements</h4>
+        <ul style="list-style:none; padding:0; margin:0;">
+          <li>Staff meeting at 3 PM today.</li>
+          <li>New attendance policy effective from Oct 1.</li>
+        </ul>
+      </div>
+    </div>
+    <!-- Attendance Data Table -->
+    <div class="data-table-section">
+      <h4>Attendance Data</h4>
+      <div class="filter-bar">
+        <input type="text" placeholder="Search by name or ID..." />
+        <select><option>All Classes</option><option>10-A</option><option>10-B</option></select>
+        <input type="date" />
+        <button>Export CSV</button>
+        <button>Export PDF</button>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Student ID</th>
+            <th>Name</th>
+            <th>Class</th>
+            <th>Date</th>
+            <th>Time Marked</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>STU001</td><td>Aarav Singh</td><td>10-A</td><td>2025-09-26</td><td>08:01 AM</td><td class="status-present">Present</td>
+          </tr>
+          <tr>
+            <td>STU002</td><td>Diya Patel</td><td>10-B</td><td>2025-09-26</td><td>--</td><td class="status-absent">Absent</td>
+          </tr>
+          <tr>
+            <td>STU003</td><td>Rohan Mehra</td><td>10-A</td><td>2025-09-26</td><td>08:03 AM</td><td class="status-present">Present</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="pagination">
+        <button>&lt;</button>
+        <span>1</span>
+        <button class="active">2</button>
+        <button>3</button>
+        <button>&gt;</button>
+      </div>
+    </div>
+    <!-- Teachers Section -->
+    <div class="data-table-section">
+      <h4>Teachers</h4>
+      <button style="margin-bottom:1rem;">Add Teacher</button>
+      <table>
+        <thead>
+          <tr>
+            <th>Teacher ID</th>
+            <th>Name</th>
+            <th>Department</th>
+            <th>Classes Assigned</th>
+            <th>Contact</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>TCH001</td><td>Priya Sharma</td><td>Mathematics</td><td>10-A, 9-B</td><td>9876543210</td>
+            <td class="table-actions">
+              <button title="Edit"><i class="fas fa-edit"></i></button>
+              <button title="Delete"><i class="fas fa-trash"></i></button>
+            </td>
+          </tr>
+          <tr>
+            <td>TCH002</td><td>Rahul Verma</td><td>Science</td><td>10-B, 8-A</td><td>9876543211</td>
+            <td class="table-actions">
+              <button title="Edit"><i class="fas fa-edit"></i></button>
+              <button title="Delete"><i class="fas fa-trash"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- Students Section -->
+    <div class="data-table-section">
+      <h4>Students</h4>
+      <button style="margin-bottom:1rem;">Add Student</button>
+      <button style="margin-bottom:1rem;">Bulk Upload</button>
+      <table>
+        <thead>
+          <tr>
+            <th>Student ID</th>
+            <th>Name</th>
+            <th>Roll No.</th>
+            <th>Class</th>
+            <th>Attendance %</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>STU001</td><td>Aarav Singh</td><td>1</td><td>10-A</td><td>98%</td>
+            <td class="table-actions">
+              <button title="Edit"><i class="fas fa-edit"></i></button>
+              <button title="Delete"><i class="fas fa-trash"></i></button>
+            </td>
+          </tr>
+          <tr>
+            <td>STU002</td><td>Diya Patel</td><td>2</td><td>10-B</td><td>92%</td>
+            <td class="table-actions">
+              <button title="Edit"><i class="fas fa-edit"></i></button>
+              <button title="Delete"><i class="fas fa-trash"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- Attendance Reports Section -->
+    <div class="data-table-section">
+      <h4>Attendance Reports</h4>
+      <div class="filter-bar">
+        <input type="date" />
+        <input type="date" />
+        <button>Generate Report</button>
+        <button>Download</button>
+        <button>Print</button>
+      </div>
+      <div class="charts-section">
+        <div class="chart-card">
+          <h4>Report Visualization</h4>
+          <canvas id="reportChart" width="320" height="180"></canvas>
+        </div>
+      </div>
+    </div>
+    <!-- Settings Section -->
+    <div class="data-table-section">
+      <h4>Settings</h4>
+      <ul>
+        <li>Manage Classes & Sections</li>
+        <li>Configure Attendance Rules (min % required, late entry cut-off)</li>
+        <li>User Management (create new admin/teacher accounts)</li>
+      </ul>
+    </div>
+  </div>
+  <!-- Chart.js for charts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Sidebar collapse/expand
+    document.getElementById('sidebarCollapse').onclick = function() {
+      document.getElementById('sidebar').classList.toggle('collapsed');
+      document.getElementById('mainContent').classList.toggle('sidebar-collapsed');
+    };
+    // Profile dropdown
+    document.getElementById('profileBtn').onclick = function(e) {
+      e.stopPropagation();
+      document.getElementById('dropdownMenu').classList.toggle('show');
+    };
+    document.body.onclick = function() {
+      document.getElementById('dropdownMenu').classList.remove('show');
+    };
+    document.getElementById('dropdownMenu').onclick = function(e) { e.stopPropagation(); };
+    // Placeholder Pie Chart
+    new Chart(document.getElementById('pieChart'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Present', 'Absent'],
+        datasets: [{
+          data: [1120, 80],
+          backgroundColor: ['#2563eb', '#ef4444'],
+          borderWidth: 0
+        }]
+      },
+      options: {
+        cutout: '70%',
+        plugins: { legend: { display: true, position: 'bottom' } },
+        responsive: true,
+      }
+    });
+    // Placeholder Bar Chart
+    new Chart(document.getElementById('barChart'), {
+      type: 'bar',
+      data: {
+        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        datasets: [{
+          label: 'Attendance %',
+          data: [92, 88, 95, 90, 93, 89, 94],
+          backgroundColor: '#2563eb',
+          borderRadius: 8,
+          maxBarThickness: 40
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: {
+            min: 0,
+            max: 100,
+            grid: { color: '#e0e7ef', drawBorder: false },
+            ticks: { color: '#23263b', font: { weight: '600' }, callback: v=>v+'%' }
+          },
+          x: {
+            grid: { color: '#f4f7fb', drawBorder: false },
+            ticks: { color: '#23263b', font: { weight: '600' } }
+          }
+        }
+      }
+    });
+    // Placeholder Report Chart
+    new Chart(document.getElementById('reportChart'), {
+      type: 'line',
+      data: {
+        labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+        datasets: [{
+          label: 'Attendance %',
+          data: [91, 93, 89, 95],
+          borderColor: '#2563eb',
+          backgroundColor: 'rgba(37,99,235,0.1)',
+          tension: 0.4,
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: {
+            min: 0,
+            max: 100,
+            grid: { color: '#e0e7ef', drawBorder: false },
+            ticks: { color: '#23263b', font: { weight: '600' }, callback: v=>v+'%' }
+          },
+          x: {
+            grid: { color: '#f4f7fb', drawBorder: false },
+            ticks: { color: '#23263b', font: { weight: '600' } }
+          }
+        }
+      }
+    });
+    // TODO: Add JS for table search, filter, pagination, export, add/edit/delete, and bulk upload
+  </script>
+</body>
+</html>

@@ -1,0 +1,194 @@
+html {
+            scroll-snap-type: y mandatory;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0D0F12;
+            color: #E0E0E0;
+        }
+
+        /* Background Image Containers */
+        .background-holder {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -2;
+        }
+
+        .background-image {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center center;
+            opacity: 0;
+            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .background-image.is-visible {
+            opacity: 1;
+        }
+
+        /* Background Overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: transparent;
+            z-index: -1;
+        }
+
+        /* Full-screen sections with scroll-snap */
+        main > section {
+            height: 100vh;
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 1.5rem; /* px-6 */
+        }
+
+        /* Sticky Header Styling */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            transition: background-color 0.4s ease-out, backdrop-filter 0.4s ease-out;
+        }
+        header.scrolled {
+            background-color: rgba(13, 15, 18, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px); /* For Safari */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-link { transition: color 0.3s ease; }
+        .nav-link:hover { color: #F87171; }
+        .nav-link-active { color: #F87171; }
+
+        .feature-card {
+            background-color: rgba(26, 29, 35, 0.7);
+            border: 1px solid #2D3748;
+            border-radius: 12px;
+            backdrop-filter: blur(5px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 25px -3px rgba(248, 113, 113, 0.15), 0 4px 6px -2px rgba(248, 113, 113, 0.1);
+        }
+        .btn {
+            border-radius: 8px;
+            padding: 12px 28px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            transform: perspective(1px) translateZ(0);
+        }
+        .btn-primary {
+            background-color: #4A5568;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .btn-primary:hover {
+            background-color: #2D3748;
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(0,0,0,0.1), 0 3px 6px rgba(0,0,0,0.08);
+        }
+        .btn-secondary {
+            background-color: transparent;
+            border: 1px solid #4A5568;
+            color: #A0AEC0;
+        }
+        .btn-secondary:hover {
+            background-color: #2D3748;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Improved Scroll Animations */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1s cubic-bezier(0.19, 1, 0.22, 1), transform 1s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .scroll-animate.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .feature-card.scroll-animate:nth-child(1) { transition-delay: 0.1s; }
+        .feature-card.scroll-animate:nth-child(2) { transition-delay: 0.2s; }
+        .feature-card.scroll-animate:nth-child(3) { transition-delay: 0.3s; }
+        .feature-card.scroll-animate:nth-child(4) { transition-delay: 0.4s; }
+
+        /* Analytics Graphic Animations */
+        .analytics-graphic .ring {
+            opacity: 0;
+            transform: scale(0.5);
+            transition: opacity 1.2s ease-out, transform 1.2s ease-out;
+        }
+        .scroll-animate.is-visible .analytics-graphic .ring-1 { opacity: 1; transform: scale(1); transition-delay: 0.1s; }
+        .scroll-animate.is-visible .analytics-graphic .ring-2 { opacity: 1; transform: scale(1); transition-delay: 0.2s; }
+        .scroll-animate.is-visible .analytics-graphic .ring-3 { opacity: 1; transform: scale(1); transition-delay: 0.3s; }
+        .scroll-animate.is-visible .analytics-graphic .icon { opacity: 1; transform: scale(1); transition-delay: 0.5s; }
+
+        /* Hero Section Background Fix */
+        #hero .background-image.is-visible {
+            opacity: 1 !important;
+        }
+
+        #hero::before {
+            background-color: transparent !important;
+        }
+
+        .text-container {
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+#hero .container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: center;
+    padding: 0 5rem; /* This adds horizontal padding */
+}        .hero-title-container {
+            animation: slideInFromLeft 1s ease-out;
+        }
+
+        .hero-title-container h1 {
+            line-height: 1.4;
+            letter-spacing: -0.05em;
+        }
+
+        .hero-content-box {
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        @keyframes slideInFromLeft {
+            0% {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            100% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }

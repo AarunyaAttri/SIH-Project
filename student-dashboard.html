@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - Attendance System</title>
+    <link rel="stylesheet" href="student-dashboard.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-left">
+                <h1>Student Attendance Portal</h1>
+                <span class="welcome-text">Welcome, <span id="studentName">Student</span></span>
+            </div>
+            <div class="header-right">
+                <span class="current-date" id="currentDate"></span>
+                <button class="logout-btn" id="logoutBtn">Logout</button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <div class="dashboard-grid">
+                <!-- Student Info Card -->
+                <div class="info-card">
+                    <h3>Student Information</h3>
+                    <div class="info-details">
+                        <p><strong>Student ID:</strong> <span id="studentId"></span></p>
+                        <p><strong>Class:</strong> <span id="studentClass"></span></p>
+                        <p><strong>Section:</strong> <span id="studentSection"></span></p>
+                        <p><strong>Login Time:</strong> <span id="loginTime"></span></p>
+                    </div>
+                </div>
+
+                <!-- Attendance Status Card -->
+                <div class="status-card">
+                    <h3>Today's Attendance</h3>
+                    <div class="attendance-status" id="attendanceStatus">
+                        <div class="status-pending">
+                            <span class="status-icon">⏳</span>
+                            <span class="status-text">Not Marked</span>
+                        </div>
+                    </div>
+                    <div class="attendance-time" id="attendanceTime" style="display: none;"></div>
+                </div>
+            </div>
+
+            <!-- Camera Section -->
+            <div class="camera-section">
+                <div class="section-header">
+                    <h2>Mark Your Attendance</h2>
+                    <p>Take a photo to mark your attendance for today</p>
+                </div>
+
+                <div class="camera-container">
+                    <!-- Camera Preview -->
+                    <div class="camera-preview" id="cameraPreview">
+                        <video id="cameraVideo" autoplay muted playsinline></video>
+                        <canvas id="cameraCanvas" style="display: none;"></canvas>
+                        
+                        <!-- Camera Controls -->
+                        <div class="camera-controls">
+                            <button class="control-btn" id="startCameraBtn">
+                                <span class="btn-icon">📷</span>
+                                Start Camera
+                            </button>
+                            <button class="control-btn capture-btn" id="captureBtn" style="display: none;">
+                                <span class="btn-icon">📸</span>
+                                Take Photo
+                            </button>
+                            <button class="control-btn" id="stopCameraBtn" style="display: none;">
+                                <span class="btn-icon">⏹️</span>
+                                Stop Camera
+                            </button>
+                        </div>
+
+                        <!-- Camera Status -->
+                        <div class="camera-status" id="cameraStatus">
+                            <p>Click "Start Camera" to begin</p>
+                        </div>
+                    </div>
+
+                    <!-- Photo Preview -->
+                    <div class="photo-preview" id="photoPreview" style="display: none;">
+                        <h4>Captured Photo</h4>
+                        <div class="photo-container">
+                            <img id="capturedPhoto" alt="Captured attendance photo">
+                        </div>
+                        
+                        <div class="photo-actions">
+                            <button class="action-btn retake-btn" id="retakeBtn">
+                                <span class="btn-icon">🔄</span>
+                                Retake Photo
+                            </button>
+                            <button class="action-btn submit-btn" id="submitAttendanceBtn">
+                                <span class="btn-icon">✅</span>
+                                Submit Attendance
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Instructions -->
+                <div class="instructions">
+                    <h4>Instructions:</h4>
+                    <ul>
+                        <li>Make sure you are in a well-lit area</li>
+                        <li>Look directly at the camera</li>
+                        <li>Keep your face clearly visible</li>
+                        <li>Take a clear photo for attendance verification</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Attendance History -->
+            <div class="history-section">
+                <div class="section-header">
+                    <h3>My Attendance History</h3>
+                    <button class="refresh-btn" id="refreshHistoryBtn">🔄 Refresh</button>
+                </div>
+
+                <div class="history-container">
+                    <div class="history-list" id="attendanceHistory">
+                        <!-- History will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Loading Modal -->
+        <div class="modal loading-modal" id="loadingModal" style="display: none;">
+            <div class="modal-content">
+                <div class="loading-spinner"></div>
+                <p>Processing your attendance...</p>
+            </div>
+        </div>
+
+        <!-- Success Modal -->
+        <div class="modal success-modal" id="successModal" style="display: none;">
+            <div class="modal-content">
+                <div class="success-icon">✅</div>
+                <h3>Attendance Marked Successfully!</h3>
+                <p>Your attendance for today has been recorded.</p>
+                <button class="modal-btn" onclick="closeModal('successModal')">OK</button>
+            </div>
+        </div>
+
+        <!-- Error Modal -->
+        <div class="modal error-modal" id="errorModal" style="display: none;">
+            <div class="modal-content">
+                <div class="error-icon">❌</div>
+                <h3>Error</h3>
+                <p id="errorMessage">Something went wrong. Please try again.</p>
+                <button class="modal-btn" onclick="closeModal('errorModal')">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="student-dashboard.js"></script>
+</body>
+</html>

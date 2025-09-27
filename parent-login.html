@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parent Login – Attendance System</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    body.stunning-bg {
+      min-height: 100vh;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+      animation: gradientMove 8s ease-in-out infinite alternate;
+      overflow: hidden;
+      position: relative;
+    }
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+    .bg-abstract {
+      position: absolute;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+      background: url('https://www.transparenttextures.com/patterns/cubes.png');
+      opacity: 0.08;
+    }
+    .login-main {
+      width: 100vw; height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+      z-index: 1;
+    }
+    .login-card {
+      background: rgba(255,255,255,0.18);
+      border-radius: 2rem;
+      box-shadow: 0 8px 32px 0 rgba(31,38,135,0.25);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1.5px solid rgba(255,255,255,0.22);
+      padding: 2.5rem 2.2rem 2rem 2.2rem;
+      width: 350px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: fadeSlideUp 1.1s cubic-bezier(.23,1.01,.32,1) both;
+    }
+    @keyframes fadeSlideUp {
+      0% { opacity: 0; transform: translateY(60px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .login-title {
+      font-family: 'Poppins', 'Inter', Arial, sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: #2563eb;
+      letter-spacing: 1px;
+      margin-bottom: 2rem;
+      text-align: center;
+      text-shadow: 0 2px 12px #a1c4fd44;
+    }
+    .login-form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    .input-group {
+      position: relative;
+      width: 100%;
+      margin-bottom: 0.5rem;
+    }
+    .input-icon {
+      position: absolute;
+      left: 1.1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #2563eb;
+      font-size: 1.1rem;
+      pointer-events: none;
+      opacity: 0.8;
+    }
+    .login-input {
+      width: 100%;
+      padding: 1.1rem 1.1rem 1.1rem 2.8rem;
+      border-radius: 1.2rem;
+      border: none;
+      background: rgba(255,255,255,0.7);
+      font-size: 1rem;
+      color: #23263b;
+      outline: none;
+      transition: box-shadow 0.2s, background 0.2s;
+      box-shadow: 0 2px 8px #a1c4fd22;
+    }
+    .login-input:focus {
+      background: #fff;
+      box-shadow: 0 4px 16px #2563eb33;
+    }
+    .floating-label {
+      position: absolute;
+      left: 2.8rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #7b8fa6;
+      font-size: 1rem;
+      pointer-events: none;
+      transition: 0.2s;
+      opacity: 0.8;
+    }
+    .login-input:focus + .floating-label,
+    .login-input:not(:placeholder-shown) + .floating-label {
+      top: 0.2rem;
+      left: 2.6rem;
+      font-size: 0.82rem;
+      color: #2563eb;
+      opacity: 1;
+    }
+    .toggle-password {
+      position: absolute;
+      right: 1.1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #2563eb;
+      cursor: pointer;
+      font-size: 1.1rem;
+      opacity: 0.7;
+      transition: color 0.2s;
+    }
+    .toggle-password:hover { color: #111; opacity: 1; }
+    .login-options {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      margin-bottom: 0.2rem;
+    }
+    .remember-me {
+      font-size: 0.98rem;
+      color: #23263b;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .forgot-link {
+      color: #2563eb;
+      text-decoration: none;
+      font-size: 0.98rem;
+      transition: color 0.2s;
+      margin-left: auto;
+    }
+    .forgot-link:hover { color: #a1c4fd; }
+    .login-btn {
+      width: 100%;
+      padding: 1rem;
+      border: none;
+      border-radius: 1.2rem;
+      background: linear-gradient(90deg, #2563eb, #38bdf8);
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 8px #2563eb22;
+      margin-top: 0.7rem;
+      transition: transform 0.18s, box-shadow 0.18s, background 0.18s;
+      position: relative;
+      overflow: hidden;
+    }
+    .login-btn:hover {
+      transform: scale(1.04);
+      background: linear-gradient(90deg, #38bdf8, #2563eb);
+      box-shadow: 0 4px 16px #2563eb44;
+    }
+    @media (max-width: 600px) {
+      .login-card { width: 98vw; padding: 1.2rem 0.5rem; }
+    }
+  </style>
+</head>
+<body class="stunning-bg">
+  <div class="bg-abstract"></div>
+  <main class="login-main">
+    <section class="login-card" id="parentLoginCard">
+      <h1 class="login-title">Parent Login – Attendance System</h1>
+      <form id="parentLoginForm" class="login-form" autocomplete="off">
+        <div class="input-group">
+          <span class="input-icon"><i class="fas fa-user"></i></span>
+          <input type="text" id="parentUsername" class="login-input" placeholder=" " required autocomplete="username">
+          <label for="parentUsername" class="floating-label">Username or Email</label>
+        </div>
+        <div class="input-group">
+          <span class="input-icon"><i class="fas fa-key"></i></span>
+          <input type="password" id="parentPassword" class="login-input" placeholder=" " required autocomplete="current-password">
+          <label for="parentPassword" class="floating-label">Password</label>
+          <span class="toggle-password" id="toggleParentPassword"><i class="fas fa-eye"></i></span>
+        </div>
+        <div class="login-options">
+          <label class="remember-me">
+            <input type="checkbox" id="rememberMe"> Remember Me
+          </label>
+          <a href="#" class="forgot-link" id="forgotPassword">Forgot Password?</a>
+        </div>
+        <button type="submit" class="login-btn" id="parentLoginBtn">Login</button>
+      </form>
+    </section>
+  </main>
+  <script src="script.js"></script>
+  <script>
+    // Entry animation (if not handled by CSS)
+    window.addEventListener('DOMContentLoaded', function() {
+      const card = document.getElementById('parentLoginCard');
+      card.style.opacity = 0;
+      card.style.transform = 'translateY(60px)';
+      setTimeout(() => {
+        card.style.transition = 'opacity 0.8s cubic-bezier(.23,1.01,.32,1), transform 0.8s cubic-bezier(.23,1.01,.32,1)';
+        card.style.opacity = 1;
+        card.style.transform = 'translateY(0)';
+      }, 100);
+    });
+    // Password show/hide toggle
+    document.getElementById('toggleParentPassword').onclick = function() {
+      const pwd = document.getElementById('parentPassword');
+      const icon = this.querySelector('i');
+      if (pwd.type === 'password') {
+        pwd.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+      } else {
+        pwd.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+      }
+    };
+  </script>
+</body>
+</html>

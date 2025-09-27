@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard - Attendance System</title>
+    <link rel="stylesheet" href="teacher-dashboard.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-left">
+                <h1>Attendance System</h1>
+                <span class="welcome-text">Welcome, <span id="teacherName">Teacher</span></span>
+            </div>
+            <div class="header-right">
+                <span class="current-date" id="currentDate"></span>
+                <button class="logout-btn" id="logoutBtn">Logout</button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <div class="dashboard-grid">
+                <!-- Teacher Info Card -->
+                <div class="info-card">
+                    <h3>Teacher Information</h3>
+                    <div class="info-details">
+                        <p><strong>Subject:</strong> <span id="teacherSubject"></span></p>
+                        <p><strong>Class:</strong> <span id="teacherClass"></span></p>
+                        <p><strong>Login Time:</strong> <span id="loginTime"></span></p>
+                    </div>
+                </div>
+
+                <!-- Quick Stats Card -->
+                <div class="stats-card">
+                    <h3>Today's Statistics</h3>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-number" id="totalStudents">0</span>
+                            <span class="stat-label">Total Students</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="presentStudents">0</span>
+                            <span class="stat-label">Present</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="absentStudents">0</span>
+                            <span class="stat-label">Absent</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="attendancePercentage">0%</span>
+                            <span class="stat-label">Attendance %</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Attendance Section -->
+            <div class="attendance-section">
+                <div class="section-header">
+                    <h2>Mark Attendance</h2>
+                    <div class="date-selector">
+                        <label for="attendanceDate">Date:</label>
+                        <input type="date" id="attendanceDate" name="attendanceDate">
+                    </div>
+                </div>
+
+                <!-- Student List -->
+                <div class="student-list-container">
+                    <div class="list-header">
+                        <div class="search-box">
+                            <input type="text" id="studentSearch" placeholder="Search students...">
+                        </div>
+                        <div class="view-toggle">
+                            <button class="toggle-btn" id="listViewBtn">📋 List</button>
+                            <button class="toggle-btn active" id="photoViewBtn">📷 Photos</button>
+                        </div>
+                        <div class="bulk-actions">
+                            <button class="bulk-btn" id="markAllPresent">Mark All Present</button>
+                            <button class="bulk-btn" id="markAllAbsent">Mark All Absent</button>
+                        </div>
+                    </div>
+
+                    <div class="student-list" id="studentList">
+                        <!-- Students will be loaded here dynamically -->
+                    </div>
+
+                    <!-- Photo Grid View -->
+                    <div class="student-photo-grid" id="studentPhotoGrid" style="display: none;">
+                        <!-- Student photos will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button class="action-btn save-btn" id="saveAttendance">Save Attendance</button>
+                    <button class="action-btn view-btn" id="viewHistory">View History</button>
+                    <button class="action-btn export-btn" id="exportData">Export Data</button>
+                </div>
+            </div>
+
+            <!-- Attendance History Modal -->
+            <div class="modal" id="historyModal" style="display: none;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Attendance History</h3>
+                        <span class="close-modal" id="closeModal">&times;</span>
+                    </div>
+                    <div class="modal-body">
+                        <div class="date-range">
+                            <input type="date" id="startDate" placeholder="Start Date">
+                            <input type="date" id="endDate" placeholder="End Date">
+                            <button id="filterHistory">Filter</button>
+                        </div>
+                        <div class="history-table">
+                            <table id="historyTable">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Total Students</th>
+                                        <th>Present</th>
+                                        <th>Absent</th>
+                                        <th>Percentage</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="historyTableBody">
+                                    <!-- History data will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="teacher-dashboard.js"></script>
+</body>
+</html>

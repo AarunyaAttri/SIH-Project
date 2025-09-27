@@ -1,0 +1,266 @@
+/* Parent Dashboard CSS – Automated Attendance System */
+:root {
+  --primary: #2563eb;
+  --secondary: #1e293b;
+  --accent-blue: #38bdf8;
+  --accent-green: #22c55e;
+  --accent-orange: #f59e42;
+  --bg: #f4f7fb;
+  --card: #fff;
+  --text: #23263b;
+  --grey: #cbd5e1;
+  --shadow: 0 2px 12px #e0e7ef;
+  --radius: 1.2rem;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 220px;
+  background: var(--secondary);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 0; top: 0; bottom: 0;
+  z-index: 100;
+  transition: width 0.2s;
+}
+.sidebar .logo {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--primary);
+  text-align: center;
+  margin: 2rem 0 2rem 0;
+  letter-spacing: 1px;
+}
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  width: 100%;
+}
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem 2rem;
+  font-size: 1.08rem;
+  color: #fff;
+  border-radius: var(--radius) 0 0 var(--radius);
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+  cursor: pointer;
+  position: relative;
+}
+.nav-link.active, .nav-link:hover {
+  background: linear-gradient(90deg, var(--primary) 0%, var(--accent-blue) 100%);
+  color: #fff;
+  font-weight: 700;
+}
+
+/* Header */
+.main-content {
+  flex: 1;
+  margin-left: 220px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  transition: margin-left 0.2s;
+}
+.header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--card);
+  box-shadow: var(--shadow);
+  border-radius: 0 0 var(--radius) var(--radius);
+  padding: 1.1rem 2.2rem 1.1rem 2.2rem;
+  margin-bottom: 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.header-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: 0.5px;
+}
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+.notif-bell {
+  position: relative;
+  font-size: 1.3rem;
+  color: var(--primary);
+  cursor: pointer;
+}
+.notif-badge {
+  position: absolute;
+  top: -7px; right: -7px;
+  background: #ef4444;
+  color: #fff;
+  font-size: 0.7rem;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-weight: 700;
+}
+.profile-dropdown {
+  position: relative;
+  display: inline-block;
+}
+.profile-btn {
+  background: none; border: none; cursor: pointer;
+  display: flex; align-items: center; gap: 0.5rem;
+  font-size: 1.1rem; color: var(--primary);
+}
+.profile-pic {
+  width: 36px; height: 36px; border-radius: 50%; background: #e0e7ef;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+}
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  right: 0; top: 120%;
+  background: var(--card);
+  box-shadow: var(--shadow);
+  border-radius: var(--radius);
+  min-width: 150px;
+  z-index: 20;
+  padding: 0.5rem 0;
+}
+.dropdown-menu.show { display: block; }
+.dropdown-menu a {
+  display: block;
+  padding: 0.7rem 1.2rem;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+.dropdown-menu a:hover { background: #f1f5f9; }
+
+/* Cards */
+.dashboard-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.2rem;
+  margin-bottom: 2rem;
+}
+.summary-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  padding: 1.2rem 1.5rem;
+  gap: 1.2rem;
+  min-width: 140px;
+  font-size: 1rem;
+}
+.summary-card .icon {
+  font-size: 2rem;
+  border-radius: 50%;
+  padding: 0.7rem;
+  color: #fff;
+  margin-right: 0.7rem;
+}
+.summary-card.blue { background: var(--primary); color: #fff; }
+.summary-card.blue .icon { background: var(--accent-blue); }
+.summary-card.green { background: var(--accent-green); color: #fff; }
+.summary-card.green .icon { background: var(--primary); }
+.summary-card.orange { background: var(--accent-orange); color: #fff; }
+.summary-card.orange .icon { background: var(--primary); }
+.summary-card.red { background: #ef4444; color: #fff; }
+.summary-card.red .icon { background: var(--primary); }
+.summary-title { font-weight: 600; font-size: 1.05rem; }
+.summary-value { font-size: 1.3rem; font-weight: 700; }
+
+/* Charts */
+.charts-section {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+.chart-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.2rem 1.5rem;
+  flex: 1 1 320px;
+  min-width: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+canvas { display: block; margin: 0 auto; }
+
+/* Table */
+.data-table-section {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.2rem 1.5rem;
+  margin-bottom: 2rem;
+  overflow-x: auto;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1rem;
+  background: transparent;
+}
+th, td {
+  padding: 0.7rem 1.1rem;
+  text-align: left;
+  border-bottom: 1px solid #e0e7ef;
+}
+th {
+  color: var(--primary);
+  font-weight: 700;
+  background: #f4f7fb;
+}
+td {
+  color: var(--text);
+  font-weight: 500;
+  background: var(--card);
+}
+tr:nth-child(even) { background: #f9fafb; }
+tr:hover { background: #e0e7ef; }
+.status-present { color: var(--accent-green); font-weight: 700; }
+.status-absent { color: #ef4444; font-weight: 700; }
+
+/* Responsive Design */
+@media (max-width: 1000px) {
+  .charts-section { flex-direction: column; gap: 1rem; }
+}
+@media (max-width: 800px) {
+  .main-content { margin-left: 70px; }
+  .sidebar { width: 70px; }
+  .sidebar .logo { opacity: 0; height: 0; margin: 0; }
+  .sidebar .nav-link span { display: none; }
+  .sidebar .nav-link { justify-content: center; padding: 0.85rem 0; }
+  .dashboard-section { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .main-content { margin-left: 0; padding: 0.5rem; }
+  .sidebar { display: none; }
+  .header-bar { flex-direction: column; gap: 1rem; align-items: flex-start; }
+  .dashboard-section { grid-template-columns: 1fr; }
+  .charts-section { flex-direction: column; gap: 1rem; }
+  .data-table-section { padding: 0.5rem; }
+  table, th, td { font-size: 0.95rem; }
+}

@@ -1,0 +1,6 @@
+/* Highlight active menu */
+.sidebar ul li a.active {
+  background-color: #ffb6c1;
+  color: #4b0082;
+  font-weight: bold;
+}
