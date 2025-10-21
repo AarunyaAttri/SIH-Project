@@ -1,0 +1,2 @@
+// Chart.js 4.4.0 CDN for attendance graph
+// This file is a placeholder for CDN usage. The script will be loaded via HTML <script> tag.

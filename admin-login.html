@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrator Login</title>
+    <link rel="stylesheet" href="admin-login.css">
+</head>
+<body>
+    <a href="whoami.html" class="back-btn" aria-label="Back to Who Am I">&#8592; Back</a>
+    <div class="login-container">
+        <form class="login-card" id="adminLoginForm">
+            <h2>Administrator Login</h2>
+            <div class="form-group">
+                <label for="userId">User ID</label>
+                <input type="text" id="userId" name="userId" placeholder="Admin ID" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+            <div class="form-footer">
+                <a href="#" class="forgot-password">Forgot Password?</a>
+            </div>
+        <button type="button" class="login-btn" onclick="handleLogin(event)">Login</button>
+        </form>
+    </div>
+    <script src="script.js"></script>
+    <script>
+    function handleLogin(event) {
+        event.preventDefault();
+        const userId = document.getElementById("userId").value.trim();
+        const password = document.getElementById("password").value.trim();
+        if (!userId || !password) {
+            alert("Please enter both User ID and Password.");
+            return;
+        }
+        window.location.href = "admin-dashboard.html";
+    }
+    document.getElementById('adminLoginForm').addEventListener('submit', handleLogin);
+    </script>
+    
+</body>
+</html>

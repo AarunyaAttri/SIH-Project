@@ -1,0 +1,11 @@
+{
+  "apiBaseUrl": "http://127.0.0.1:5000",
+  "endpoints": {
+    "studentLogin": "/student-login",
+    "teacherLogin": "/teacher-login",
+    "parentLogin": "/parent-login",
+    "adminLogin": "/admin-login",
+    "markAttendance": "/mark-attendance",
+    "attendanceHistory": "/attendance-history"
+  }
+}

@@ -81,5 +81,23 @@
     </div>
     
     <script src="teacher-login.js"></script>
+    <script src="script.js"></script>
+    <script>
+      async function handleLogin(event) {
+          event.preventDefault();
+          const username = document.getElementById("username").value;
+          const password = document.getElementById("password").value;
+
+          const result = await studentLogin(username, password);
+
+          if (result.success) {
+              alert("Login successful!");
+              window.location.href = "student-dashboard.html";
+          } else {
+              alert("Login failed: " + result.message);
+          }
+      }
+      document.getElementById('loginForm').addEventListener('submit', handleLogin);
+    </script>
 </body>
 </html>
