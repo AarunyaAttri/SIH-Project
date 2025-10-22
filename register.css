@@ -1,0 +1,198 @@
+/* Register Page Styles - Black Background, Split Layout */
+body.register-bg {
+    background: #111114;
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url('registerpageimage.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.register-container {
+    display: flex;
+    width: 100vw;
+    min-height: 100vh;
+}
+.register-left {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 5vw;
+    background: none;
+}
+.register-left h2 {
+    /* replaced by .creative-transform */
+}
+.creative-transform {
+    color: #fff;
+    font-size: 4em;
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    font-weight: 700;
+    text-align: left;
+    margin-bottom: 16px;
+    line-height: 0.8;
+    letter-spacing: 1px;
+    background: none;
+    position: relative;
+    left: 0;
+    padding-left: 5vw;
+}
+.transform-multi {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    height: 60vh;
+    min-width: 400px;
+    line-height: 0.8;
+    position: relative;
+    left: 0;
+    padding-left: 5vw;
+}
+.register-right {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 5vw;
+}
+.register-card {
+    background: #18181c;
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    padding: 48px 36px;
+    width: 100%;
+    max-width: 540px;
+}
+.register-header {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+}
+.register-header h1 {
+    color: #fff;
+    font-size: 2em;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+.back-btn {
+    background: none;
+    border: 2px solid #fff;
+    color: #fff;
+    border-radius: 25px;
+    padding: 8px 28px;
+    font-size: 1.1em;
+    text-decoration: none;
+    transition: background 0.2s;
+    z-index: 2;
+    display: inline-block;
+    margin-bottom: 24px;
+    position: absolute;
+    top: 32px;
+    left: 32px;
+}
+.back-btn:hover {
+    background: #222;
+    color: #ff6f6f;
+    border-color: #ff6f6f;
+}
+.register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+}
+.register-form .form-group {
+    width: 80%;
+    margin: 0 auto;
+}
+.form-group {
+    position: relative;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.95em;
+}
+.form-group input {
+    width: 100%;
+    padding: 15px 20px;
+    border: 1px solid #fff;
+    border-radius: 16px;
+    font-size: 1.1em;
+    transition: all 0.3s ease;
+    background: #111114;
+    color: #fff;
+    outline: none;
+}
+.form-group input:focus {
+    border-color: #ff6f6f;
+    box-shadow: 0 0 0 3px rgba(255, 111, 111, 0.1);
+    transform: translateY(-2px);
+}
+.form-group input::placeholder {
+    color: #999;
+}
+.register-btn {
+    background: #ff6f6f;
+    color: #222;
+    border: none;
+    padding: 16px 20px;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+}
+.register-btn:hover {
+    background: #ff4c4c;
+    color: #fff;
+}
+.terms-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.terms-group label {
+    color: #fff;
+    font-size: 1em;
+    font-weight: 600;
+    white-space: nowrap;
+    margin-bottom: 0;
+}
+.error-message {
+    background: #ffebee;
+    color: #c62828;
+    padding: 12px 15px;
+    border-radius: 8px;
+    font-size: 0.9em;
+    margin-top: 10px;
+    border-left: 4px solid #c62828;
+}
+@media (max-width: 900px) {
+    .register-container {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .register-left, .register-right {
+        flex: none;
+        width: 100%;
+        padding: 0;
+        justify-content: center;
+    }
+    .register-left h2 {
+        text-align: center;
+        margin-bottom: 32px;
+    }
+}

@@ -1,347 +1,250 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Parent Dashboard – Attendance System</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      min-height: 100vh;
-      margin: 0;
-      font-family: 'Poppins', Arial, sans-serif;
-      background: linear-gradient(120deg, #f8fbff 0%, #e3f0ff 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.6s;
-    }
-    .dashboard-card {
-      background: #fff;
-      box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
-      border-radius: 15px;
-      padding: 2.5rem 2rem 2rem 2rem;
-      max-width: 900px;
-      width: 98vw;
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-      animation: fadeInUp 1s cubic-bezier(.23,1.01,.32,1);
-    }
-    @keyframes fadeInUp {
-      0% { opacity: 0; transform: translateY(60px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-    .dashboard-header {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0.3rem;
-    }
-    .dashboard-header h2 {
-      font-size: 2rem;
-      font-weight: 700;
-      color: #1C6DD0;
-      margin: 0;
-    }
-    .dashboard-header .child-name {
-      font-size: 1.1rem;
-      color: #4A90E2;
-      font-weight: 500;
-      margin-top: 0.2rem;
-    }
-    .summary-section {
-      display: flex;
-      gap: 2rem;
-      flex-wrap: wrap;
-      justify-content: flex-start;
-    }
-    .attendance-summary {
-      background: #fff;
-      border-radius: 15px;
-      box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
-      border: 1.5px solid #e3f0ff;
-      padding: 1.5rem 2rem;
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-      min-width: 260px;
-      flex: 1 1 260px;
-      position: relative;
-      transition: box-shadow 0.2s, transform 0.2s, border 0.2s;
-    }
-    .attendance-summary:hover {
-      box-shadow: 0 8px 32px rgba(76, 175, 255, 0.18);
-      border: 1.5px solid #4A90E2;
-      transform: translateY(-4px) scale(1.03);
-    }
-    .circular-progress {
-      width: 80px; height: 80px;
-      position: relative;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .circular-progress svg {
-      width: 80px; height: 80px;
-      transform: rotate(-90deg);
-    }
-    .circular-progress .progress-value {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 1.3rem;
-      font-weight: 700;
-      color: #1C6DD0;
-    }
-    .attendance-info {
-      display: flex;
-      flex-direction: column;
-      gap: 0.3rem;
-    }
-    .attendance-info .label {
-      font-size: 1rem;
-      color: #4A90E2;
-      font-weight: 500;
-    }
-    .attendance-info .value {
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: #222;
-    }
-    .quick-links {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      margin-top: 0.5rem;
-    }
-    .quick-link-btn {
-      background: linear-gradient(90deg, #4A90E2 0%, #1C6DD0 100%);
-      color: #fff;
-      border: none;
-      border-radius: 1.2rem;
-      padding: 0.7rem 1.5rem;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 2px 8px #4A90E222;
-      transition: background 0.18s, transform 0.18s;
-      display: flex; align-items: center; gap: 0.6rem;
-    }
-    .quick-link-btn:hover {
-      background: linear-gradient(90deg, #1C6DD0 0%, #4A90E2 100%);
-      transform: scale(1.04);
-    }
-    .recent-classes-section {
-      background: #fff;
-      border-radius: 15px;
-      box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
-      border: 1.5px solid #e3f0ff;
-      padding: 1.2rem 1rem 1.2rem 1rem;
-      margin-top: 0.5rem;
-    }
-    .recent-classes-section h3 {
-      margin: 0 0 0.7rem 0;
-      color: #1C6DD0;
-      font-size: 1.1rem;
-      font-weight: 600;
-    }
-    .recent-classes-table {
-      width: 100%;
-      border-collapse: separate;
-      border-spacing: 0 0.5rem;
-    }
-    .recent-classes-table th {
-      text-align: left;
-      color: #4A90E2;
-      font-weight: 600;
-      font-size: 1rem;
-      padding-bottom: 0.3rem;
-    }
-    .recent-classes-table td {
-      background: #f8fbff;
-      border-radius: 0.7rem;
-      padding: 0.6rem 0.8rem;
-      font-size: 1rem;
-      color: #222;
-      vertical-align: middle;
-    }
-    .badge {
-      display: inline-block;
-      padding: 0.3em 0.9em;
-      border-radius: 1em;
-      font-size: 0.98em;
-      font-weight: 600;
-      color: #fff;
-      margin-left: 0.3em;
-      box-shadow: 0 1px 4px #4A90E222;
-    }
-    .badge.present { background: #1C6DD0; }
-    .badge.absent { background: #E0E0E0; color: #222; }
-    .badge.late { background: linear-gradient(90deg, #4A90E2 0%, #1C6DD0 100%); }
-    .recent-classes-table tr.low-attendance td {
-      background: linear-gradient(90deg, #e3f0ff 0%, #b3d8fd 100%);
-      box-shadow: 0 0 8px #4A90E244;
-    }
-    .notifications-section {
-      margin-top: 0.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.7rem;
-    }
-    .notification-card {
-      background: linear-gradient(90deg, #e3f0ff 0%, #b3d8fd 100%);
-      border-radius: 1rem;
-      box-shadow: 0 2px 8px #4A90E244;
-      padding: 1rem 1.2rem;
-      color: #1C6DD0;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 0.7rem;
-      animation: fadeIn 0.7s;
-    }
-    .notification-card.important {
-      background: linear-gradient(90deg, #4A90E2 0%, #1C6DD0 100%);
-      color: #fff;
-      box-shadow: 0 0 16px #4A90E288;
-      font-weight: 700;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    /* Progress Circle Blue */
-    #progressCircle {
-      stroke: #1C6DD0;
-      transition: stroke-dashoffset 1s cubic-bezier(.23,1.01,.32,1);
-    }
-    @media (max-width: 700px) {
-      .dashboard-card { padding: 1.2rem 0.2rem; }
-      .summary-section { flex-direction: column; gap: 1rem; }
-      .attendance-summary { min-width: 0; width: 100%; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parent Dashboard</title>
+    <link rel="stylesheet" href="parent-dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
-  <div class="dashboard-card">
-    <!-- Top Section: Greeting -->
-    <div class="dashboard-header">
-      <h2>Welcome, <span id="parentName">Priya Sharma</span>!</h2>
-      <div class="child-name">Child: <span id="childName">Aarav Sharma (Class 4B)</span></div>
-    </div>
-    <!-- Attendance Summary Section -->
-    <div class="summary-section">
-      <div class="attendance-summary">
-        <div class="circular-progress" id="attendanceProgress">
-          <svg>
-            <circle cx="40" cy="40" r="36" stroke="#e3f0ff" stroke-width="8" fill="none"/>
-            <circle cx="40" cy="40" r="36" stroke="#1C6DD0" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="226.2" stroke-dashoffset="0" id="progressCircle"/>
-          </svg>
-          <span class="progress-value" id="attendancePercent">92%</span>
-        </div>
-        <div class="attendance-info">
-          <span class="label">Attendance</span>
-          <span class="value">This Month</span>
-        </div>
-      </div>
-      <div class="attendance-summary">
-        <div class="circular-progress" style="background: none;">
-          <span class="progress-value" style="font-size:2.1rem;color:#1C6DD0;"><i class="fas fa-calendar-check"></i></span>
-        </div>
-        <div class="attendance-info">
-          <span class="label">Days Present</span>
-          <span class="value" id="daysPresent">20</span>
-        </div>
-      </div>
-      <div class="attendance-summary">
-        <div class="circular-progress" style="background: none;">
-          <span class="progress-value" style="font-size:2.1rem;color:#E0E0E0;"><i class="fas fa-calendar-times"></i></span>
-        </div>
-        <div class="attendance-info">
-          <span class="label">Days Absent</span>
-          <span class="value" id="daysAbsent">2</span>
-        </div>
-      </div>
-    </div>
-    <!-- Quick Links -->
-    <div class="quick-links">
-      <button class="quick-link-btn"><i class="fas fa-chart-bar"></i> Monthly Report</button>
-      <button class="quick-link-btn"><i class="fas fa-print"></i> Print Attendance</button>
-      <button class="quick-link-btn"><i class="fas fa-envelope"></i> Contact Teacher</button>
-    </div>
-    <!-- Recent Classes Section -->
-    <div class="recent-classes-section">
-      <h3>Recent Classes</h3>
-      <table class="recent-classes-table">
-        <thead>
-          <tr>
-            <th>Class</th>
-            <th>Date</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody id="recentClassesBody">
-          <!-- JS will populate rows -->
-        </tbody>
-      </table>
-    </div>
-    <!-- Notifications Section -->
-    <div class="notifications-section" id="notificationsSection">
-      <!-- JS will populate notifications -->
-    </div>
-  </div>
-  <script>
-    // Attendance Progress Circle
-    function setAttendanceProgress(percent) {
-      const circle = document.getElementById('progressCircle');
-      const radius = 36;
-      const circumference = 2 * Math.PI * radius;
-      const offset = circumference - (percent / 100) * circumference;
-      circle.style.strokeDasharray = `${circumference}`;
-      circle.style.strokeDashoffset = `${offset}`;
-      document.getElementById('attendancePercent').textContent = percent + '%';
-    }
-    setAttendanceProgress(92);
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle Sidebar">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav>
+                <a href="#" class="active"><i class="fas fa-home"></i><span class="sidebar-label">Home</span></a>
+                <a href="#"><i class="fas fa-chart-line"></i><span class="sidebar-label">Student Progress</span></a>
+                <a href="#"><i class="fas fa-calendar-check"></i><span class="sidebar-label">Attendance</span></a>
+                <a href="#"><i class="fas fa-bell"></i><span class="sidebar-label">Notifications</span></a>
+                <a href="#"><i class="fas fa-cog"></i><span class="sidebar-label">Settings</span></a>
+                <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i><span class="sidebar-label">Logout</span></a>
+                <div class="modal-overlay" id="logoutModal">
+                    <div class="modal-content">
+                        <p>Are you sure you want to logout?</p>
+                        <button id="confirmLogout" class="login-btn" style="margin-right:1rem;">Yes</button>
+                        <button id="cancelLogout" class="login-btn" style="background:#e5e7eb;color:#374151;">Cancel</button>
+                    </div>
+                </div>
+            </nav>
+        </aside>
+        <main class="main-content">
+            <header class="header">
+                <span class="header-title">Parent Dashboard</span>
+                <span class="profile-icon" id="profileIcon"><i class="fas fa-user-circle"></i></span>
+                <div class="profile-dropdown" id="profileDropdown">
+                    <div class="profile-info">
+                        <div class="profile-name">Ahwani</div>
+                        <div class="profile-email">parent@email.com</div>
+                        <div class="profile-role">Role: Parent</div>
+                    </div>
+                </div>
+            </header>
+            <div class="top-bar">
+                <form class="search-bar" onsubmit="return false;">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search student records..." id="searchInput">
+                </form>
 
-    // Populate Recent Classes
-    const recentClasses = [
-      { class: 'Math', date: '2025-09-24', status: 'present' },
-      { class: 'Science', date: '2025-09-23', status: 'absent' },
-      { class: 'English', date: '2025-09-22', status: 'present' },
-      { class: 'History', date: '2025-09-21', status: 'late' },
-      { class: 'Art', date: '2025-09-20', status: 'present' },
-    ];
-    const statusBadges = {
-      present: '<span class="badge present">✔️ Present</span>',
-      absent: '<span class="badge absent">❌ Absent</span>',
-      late: '<span class="badge late">⏰ Late</span>'
-    };
-    const recentClassesBody = document.getElementById('recentClassesBody');
-    recentClasses.forEach(row => {
-      const tr = document.createElement('tr');
-      if(row.status === 'absent') tr.classList.add('low-attendance');
-      tr.innerHTML = `
-        <td>${row.class}</td>
-        <td>${row.date}</td>
-        <td>${statusBadges[row.status]}</td>
-      `;
-      recentClassesBody.appendChild(tr);
-    });
-
-    // Notifications
-    const notifications = [
-      { text: 'You missed Science class on 2025-09-23.', important: true },
-      { text: 'Parent-Teacher meeting on 2025-09-28 at 10:00 AM.', important: false },
-      { text: 'Attendance below 90% for this month.', important: true },
-    ];
-    const notificationsSection = document.getElementById('notificationsSection');
-    notifications.forEach(n => {
-      const div = document.createElement('div');
-      div.className = 'notification-card' + (n.important ? ' important' : '');
-      div.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${n.text}`;
-      notificationsSection.appendChild(div);
-    });
-  </script>
+            </div>
+            <section id="dashboardContent">
+                <!-- Home Content -->
+                <div class="dashboard-section" id="homeSection">
+                    <div class="card" style="margin-bottom:1.5rem;">
+                        <div class="card-header"><span class="card-title">Welcome, Parent!</span></div>
+                        <div class="card-content">View your child's latest progress and school updates below.</div>
+                    </div>
+                    <div class="dashboard-grid">
+                        <section class="card">
+                            <div class="card-header"><span class="card-title">Attendance</span></div>
+                            <div class="card-content"><strong>96%</strong> attendance<br>2 recent absences</div>
+                        </section>
+                        <section class="card">
+                            <div class="card-header"><span class="card-title">Recent Marks</span></div>
+                            <div class="card-content">
+                                <div id="recentMarksSummary"></div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                <!-- Student Progress Content -->
+                <div class="dashboard-section" id="progressSection" style="display:none;">
+                    <div class="card">
+                        <div class="card-header"><span class="card-title">Student Progress</span></div>
+                        <div class="card-content">
+                            <div style="overflow-x:auto;">
+                                <table class="marks-table" id="marksTable">
+                                    <thead>
+                                        <tr>
+                                            <th data-sort="subject">Subject</th>
+                                            <th data-sort="date">Date</th>
+                                            <th data-sort="type">Type</th>
+                                            <th data-sort="assessment">Assessment</th>
+                                            <th data-sort="score">Score</th>
+                                            <th data-sort="total">Total</th>
+                                            <th data-sort="percent">%</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Populated by JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div id="subjectStats" style="margin-top:1.5rem;"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Attendance Content -->
+                <div class="dashboard-section" id="attendanceSection" style="display:none;">
+                    <div class="card">
+                        <div class="card-header" style="display:flex;align-items:center;justify-content:space-between;gap:1rem;">
+                            <span class="card-title">Subject-wise Attendance Report</span>
+                            <select id="attendanceTimeline" class="timeline-select">
+                                <option value="7">Last 7 Days</option>
+                                <option value="30">Last 30 Days</option>
+                                <option value="semester">Last Semester</option>
+                            </select>
+                        </div>
+                        <div class="card-content">
+                            <div style="overflow-x:auto;">
+                                <table class="attendance-table" id="attendanceTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Subject</th>
+                                            <th>Total Classes</th>
+                                            <th>Attended</th>
+                                            <th>Absent</th>
+                                            <th>Attendance %</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Populated by JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div style="margin-top:2rem;">
+                                <canvas id="attendanceChart" height="120"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Notifications Content -->
+                <div class="dashboard-section" id="notificationsSection" style="display:none;">
+                    <div class="card">
+                        <div class="card-header"><span class="card-title">Notifications</span></div>
+                        <div class="card-content">
+                            <ul class="notifications-list">
+                                <li class="notification-item expandable">Parent-Teacher meeting on Sep 30.<div class="notification-details">Meeting at 10am in Room 101. Please confirm attendance.</div></li>
+                                <li class="notification-item expandable">Science project due Oct 5.<div class="notification-details">Submit your project to the Science Lab by 3pm.</div></li>
+                                <li class="notification-item expandable">Attendance below 95% triggers alert.<div class="notification-details">Please ensure your child attends all classes to avoid further alerts.</div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- Settings Content -->
+                <div class="dashboard-section" id="settingsSection" style="display:none;">
+                    <!-- Account Management Card -->
+                    <div class="card collapsible-card">
+                        <div class="card-header collapsible-header"><span class="card-title">Account Management</span><button class="card-toggle"><i class="fas fa-chevron-up"></i></button></div>
+                        <div class="card-content">
+                            <form id="accountForm">
+                                <div class="form-row">
+                                    <label for="parentName">Name:</label>
+                                    <input type="text" id="parentName" name="parentName" value="Jane Doe" required>
+                                </div>
+                                <div class="form-row">
+                                    <label for="parentEmail">Email:</label>
+                                    <input type="email" id="parentEmail" name="parentEmail" value="parent@email.com" required>
+                                    <button type="button" class="verify-btn" id="verifyEmailBtn">Update Email</button>
+                                </div>
+                                <div class="form-row">
+                                    <label for="parentPhone">Phone Number:</label>
+                                    <input type="tel" id="parentPhone" name="parentPhone" value="555-123-4567" required>
+                                </div>
+                                <div class="form-row">
+                                    <label for="parentPassword">Password:</label>
+                                    <input type="password" id="parentPassword" name="parentPassword" placeholder="New Password">
+                                    <button type="button" class="verify-btn" id="verifyPasswordBtn">Update Password</button>
+                                </div>
+                                <div class="form-row">
+                                    <label>Linked Students:</label>
+                                    <div id="linkedStudents">
+                                        <div class="linked-student">John Doe <span class="student-id">(ID: 20231234)</span></div>
+                                        <div class="linked-student">Jane Doe <span class="student-id">(ID: 20231235)</span></div>
+                                    </div>
+                                    <button type="button" class="verify-btn" id="manageStudentsBtn">Manage</button>
+                                </div>
+                                <div class="form-row">
+                                    <label>2-Step Verification:</label>
+                                    <label class="switch">
+                                        <input type="checkbox" id="twoStepToggle">
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <button type="submit" class="login-btn" style="width:auto;">Save Changes</button>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- Notification Preferences Card -->
+                    <div class="card collapsible-card">
+                        <div class="card-header collapsible-header"><span class="card-title">Notification Preferences</span><button class="card-toggle"><i class="fas fa-chevron-up"></i></button></div>
+                        <div class="card-content">
+                            <form id="notificationForm">
+                                <div class="form-row">
+                                    <label><input type="checkbox" name="notifEmail" checked> Email Notifications</label>
+                                </div>
+                                <div class="form-row">
+                                    <label><input type="checkbox" name="notifSMS"> SMS Notifications</label>
+                                </div>
+                                <div class="form-row">
+                                    <label><input type="checkbox" name="notifApp" checked> App Notifications</label>
+                                </div>
+                                <button type="submit" class="login-btn" style="width:auto;">Save Preferences</button>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- Help & Support Card -->
+                    <div class="card collapsible-card">
+                        <div class="card-header collapsible-header"><span class="card-title">Help & Support</span><button class="card-toggle"><i class="fas fa-chevron-up"></i></button></div>
+                        <div class="card-content">
+                            <div class="faq-section">
+                                <h4>FAQs</h4>
+                                <ul>
+                                    <li><strong>How do I update my email?</strong> Use the Update Email button in Account Management. Password verification is required.</li>
+                                    <li><strong>How do I add another student?</strong> Click Manage in Linked Students to add or remove students.</li>
+                                    <li><strong>How do I contact support?</strong> Use the contact form below or email/call us directly.</li>
+                                </ul>
+                            </div>
+                            <div class="contact-section">
+                                <h4>Contact Info</h4>
+                                <div>Email: <a href="mailto:support@school.com">support@school.com</a></div>
+                                <div>Phone: <a href="tel:555-987-6543">555-987-6543</a></div>
+                                <form id="supportForm" style="margin-top:1rem;">
+                                    <label for="supportMsg">Send us a message:</label>
+                                    <textarea id="supportMsg" rows="3" style="width:100%;padding:0.5rem;border-radius:6px;border:1px solid #e5e7eb;resize:vertical;" required></textarea>
+                                    <button type="submit" class="login-btn" style="margin-top:0.7rem;">Submit Ticket</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Password Verification Modal -->
+                    <div class="modal-overlay" id="verifyModal">
+                        <div class="modal-content">
+                            <p>Please enter your current password to proceed:</p>
+                            <input type="password" id="verifyPasswordInput" style="width:80%;padding:0.5rem;margin:1rem 0;border-radius:6px;border:1px solid #e5e7eb;">
+                            <div>
+                                <button id="verifyConfirmBtn" class="login-btn" style="margin-right:1rem;">Verify</button>
+                                <button id="verifyCancelBtn" class="login-btn" style="background:#e5e7eb;color:#374151;">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="parent-dashboard.js"></script>
 </body>
 </html>
-

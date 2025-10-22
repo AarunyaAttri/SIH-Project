@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Login - Attendance System</title>
-    <link rel="stylesheet" href="student-login.css">
+    <title>Admin Login - Attendance System</title>
+    <link rel="stylesheet" href="admin-login.css">
     <style>
         body {
             margin: 0;
@@ -82,13 +82,13 @@
     <div class="login-container">
         <a href="whoami.html" style="display:inline-block; margin-bottom: 24px; padding: 10px 28px; border:2px solid #fff; border-radius: 32px; color:#fff; background:none; font-size:1.2em; font-weight:500; text-decoration:none; transition:background 0.2s;">&lt;&lt; BACK</a>
         <div class="login-header">
-            <h1 style="color:#fff;">Student Login</h1>
+            <h1>Admin Login</h1>
             <p>Attendance Management System</p>
         </div>
         <form id="loginForm" class="login-form">
             <div class="form-group">
-                <label for="studentId">Student ID</label>
-                <input type="text" id="studentId" name="studentId" placeholder="Enter your Student ID" required>
+                <label for="adminId">Admin ID</label>
+                <input type="text" id="adminId" name="adminId" placeholder="Enter your Admin ID" required>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
@@ -109,7 +109,7 @@
             alert('You must agree to the Terms of Service and Privacy Policy to login.');
             return;
         }
-        window.location.href = 'students-dashboard.html';
+        window.location.href = 'admin-dashboard.html';
     });
     </script>
 </body>

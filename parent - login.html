@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parent Login</title>
+    <link rel="stylesheet" href="parent-login.css">
+</head>
+<body>
+    <a href="whoami.html" class="back-btn" aria-label="Back to Who Am I">&#8592; Back</a>
+    <div class="login-container">
+        <form class="login-card" id="parentLoginForm">
+            <h2>Parent Login</h2>
+            <div class="form-group">
+                <label for="emailOrId">Email or Student ID</label>
+                <input type="text" id="emailOrId" name="emailOrId" placeholder="Email or Student ID" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+            <div class="form-footer">
+                <a href="#" class="forgot-password">Forgot Password?</a>
+            </div>
+            <button type="submit" class="login-btn">Login</button>
+        </form>
+    </div>
+    <script src="parent-login.js"></script>
+</body>
+</html>

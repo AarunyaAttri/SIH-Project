@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Attendance System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="register.css">
+</head>
+<body class="register-bg">
+    <div class="register-container">
+        <div class="register-left">
+            <div style="width:100%; display:flex; flex-direction:column; align-items:flex-start; justify-content:center; height:100vh; position:relative;">
+                <a href="index.html" class="back-btn" style="position:absolute; top:32px; left:32px;">&lt;&lt; BACK</a>
+                <div class="creative-transform transform-multi">
+                    <span>Transform</span><br>
+                    <span>your</span><br>
+                    <span>Institution</span><br>
+                    <span>now</span>
+                </div>
+            </div>
+        </div>
+        <div class="register-right">
+            <div class="register-card wide-card">
+                <div class="register-header">
+                    <h1>Register</h1>
+                </div>
+                <form id="register-form" class="register-form center-form">
+                    <div class="form-group">
+                        <label for="fullname">Full Name *</label>
+                        <input type="text" id="fullname" name="fullname" required placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email ID *</label>
+                        <input type="email" id="email" name="email" required placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password *</label>
+                        <input type="password" id="password" name="password" required placeholder="Create a password">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-password">Confirm Password *</label>
+                        <input type="password" id="confirm-password" name="confirm-password" required placeholder="Confirm your password">
+                    </div>
+                    <div class="form-group">
+                        <label for="institution">Name of Institution *</label>
+                        <input type="text" id="institution" name="institution" required placeholder="Enter institution name">
+                    </div>
+                    <div class="form-group terms-group">
+                        <input type="checkbox" id="terms" required>
+                        <label for="terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+                    </div>
+                    <button type="submit" class="register-btn">Register</button>
+                    <div class="error-message" id="errorMessage" style="display: none;"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="register.js"></script>
+</body>
+</html>

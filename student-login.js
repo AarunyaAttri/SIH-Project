@@ -2,21 +2,16 @@
 document.addEventListener('DOMContentLoaded', function() {
     const loginForm = document.getElementById('loginForm');
     const errorMessage = document.getElementById('errorMessage');
-    const loginBtn = document.querySelector('.login-btn');
     const btnText = document.querySelector('.btn-text');
     const btnLoading = document.querySelector('.btn-loading');
 
-    // Form validation
-    function validateForm(formData) {
-        const errors = [];
+    loginForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
         
-        if (!formData.studentId.trim()) {
-            errors.push('Student ID is required');
-        }
-        
-        if (!formData.password.trim()) {
-            errors.push('Password is required');
-        }
+        // Show loading state
+        btnText.style.display = 'none';
+        btnLoading.style.display = 'flex';
+        errorMessage.style.display = 'none';
         
         if (!formData.class) {
             errors.push('Please select a class');
@@ -27,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         return errors;
-    }
+    });
 
     // Show error message
     function showError(message) {
